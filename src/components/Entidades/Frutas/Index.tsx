@@ -1,13 +1,13 @@
 import Tabela from "../../Tabela/Index"
 import useSWR from 'swr'
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { Layout, theme } from 'antd';
 import { colunasTabela } from "./colunas";
 import { IFrutas } from "../../../Interfaces/frutas";
 import servico from "../../../lib/services/frutas";
 import S from "./style"
-import Modal from "../../Modal";
 import Formulario from "./formulario";
+import FormularioCadastro from "../../FormularioCad";
 const {Content } = Layout;
 
 export type ListagemFrutasProps = {
@@ -19,6 +19,7 @@ export type ListagemFrutasProps = {
 function HomeFrutas(){
     const { token: { colorBgContainer },} = theme.useToken();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalCad, setIsModalCad] = useState(false);
     const [mostrarDropdown, setMostrarDropdown] = useState<ListagemFrutasProps>({
       fruta: undefined,
       visivel: false
@@ -27,15 +28,6 @@ function HomeFrutas(){
 
     const { data , error, mutate, isValidating } =
     useSWR('Fruta', async () => await servico.buscarDados())
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-    limparFormulario()
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
 
     function pegarDadosColuna( value : IFrutas, visivel : boolean ){
@@ -47,6 +39,17 @@ function HomeFrutas(){
    function limparFormulario(){
       setIsModalOpen(false);
     }
+
+
+    function cadastrarFruta(){
+      setIsModalCad(true)
+    }
+
+    function mostrarFormulario(){
+      setIsModalCad(false)
+    }
+
+
     return (
       <>
       <Layout className="site-layout">
@@ -58,7 +61,7 @@ function HomeFrutas(){
             </S.Titulo>
           </S.ContainerTitulo>
               <S.ContainerButton>
-                <S.Botao danger>Cadastrar</S.Botao>
+                <S.Botao danger onClick={cadastrarFruta}>Cadastrar</S.Botao>
               </S.ContainerButton>
           </S.HeaderMod>
           <Content
@@ -76,13 +79,8 @@ function HomeFrutas(){
           </Content>
         </Layout>
       </Layout>
-      <Modal
-      title="Fruta selecionada"
-      onCancel={handleCancel}
-      onOk={handleOk}
-      open={isModalOpen}>
-        <Formulario dados={fruta as any} limparFormulario={limparFormulario}/>
-      </Modal>
+        <Formulario dados={fruta as any} limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
+        <FormularioCadastro mostrarFormulário={mostrarFormulario} isModalOpen={isModalCad} />
       </>
     );
   };

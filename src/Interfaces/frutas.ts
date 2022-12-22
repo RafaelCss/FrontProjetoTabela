@@ -7,6 +7,13 @@ export interface IFrutas {
   valorB : number
 }
 
+export interface FrutaPost {
+  nome : string
+  valorA : number
+  valorB : number
+}
+
+
 interface Filtro {
 
 }

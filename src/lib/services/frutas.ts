@@ -1,8 +1,19 @@
 import api from "./configAxios"
 import qs from 'qs'
-import { IFrutas } from "../../Interfaces/frutas"
+import { FrutaPost, IFrutas } from "../../Interfaces/frutas"
 
-
+const cadastrar = (dados : FrutaPost) =>{
+  const post : FrutaPost={
+    nome : dados.nome,
+    valorA : dados.valorA,
+    valorB : dados.valorB
+  }
+  const resultado =  api
+  .post('Fruta', post)
+  .then(response => response.data)
+  .catch(error => ({ ...error?.response?.data, sucesso: false }));
+  return resultado
+  }
 
 const buscarDados = (filtro ?: any) =>{
   const resultado =  api
@@ -20,4 +31,4 @@ const executarContas =async ( valorA : number, valorB : number, operacao : strin
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default  {buscarDados, executarContas}
+export default  {buscarDados, executarContas, cadastrar}

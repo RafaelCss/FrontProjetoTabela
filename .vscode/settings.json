@@ -5,6 +5,7 @@
     "Formulario",
     "operacao",
     "Paginacao",
+    "registro",
     "visivel"
   ],
   "dotenv.enableAutocloaking": false
