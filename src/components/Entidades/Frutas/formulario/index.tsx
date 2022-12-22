@@ -4,7 +4,7 @@ import { IFrutas } from '../../../../Interfaces/frutas';
 import Modal from '../../../Modal';
 
 interface DadosFormulario {
-  dados : IFrutas
+  dados ?: IFrutas
   limparFormulario : () => void
   isModalOpen : boolean
 }
@@ -16,12 +16,12 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
   const initialRender = useCallback(() => {
     if (form) {
       if (dados) {
-        form.setFieldsValue(dados);
+        form.setFieldsValue({...dados, resultado : operacao});
       } else {
         form.resetFields();
       }
     }
-  }, [form, dados]);
+  }, [form, dados, operacao]);
 
   useEffect(() => {
     initialRender();

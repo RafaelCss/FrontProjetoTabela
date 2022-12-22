@@ -76,7 +76,7 @@ function HomeFrutas(){
           </Content>
         </Layout>
       </Layout>
-        <Formulario dados={fruta as any} limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
+        <Formulario dados={fruta } limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
         <FormularioCadastro mostrarFormulário={mostrarFormulario} isModalOpen={isModalCad} />
       </>
     );

@@ -9,7 +9,7 @@ const cadastrar = (dados : FrutaPost) =>{
     valorB : dados.valorB
   }
   const resultado =  api
-  .post('Fruta', post)
+  .post('Fruta', JSON.stringify(post))
   .then(response => response.data)
   .catch(error => ({ ...error?.response?.data, sucesso: false }));
   return resultado

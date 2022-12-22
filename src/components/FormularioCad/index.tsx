@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Alert } from 'antd';
 import servico from "../../lib/services/frutas";
 import { FrutaPost, IFrutas } from '../../Interfaces/frutas';
 import Modal from '../Modal';
@@ -17,13 +17,13 @@ function FormularioCadastro({ mostrarFormulário, isModalOpen }: DadosFormulario
     function cadastrarFruta(){
       form.validateFields().then(async ()=>{
       const registro : FrutaPost = form.getFieldsValue(true)
-
       const post =   await servico.cadastrar({
         nome : registro.nome,
         valorA : Number(registro.valorA),
         valorB : Number(registro.valorB),
-       })
-       console.log(post)
+       }).then(res =>console.log(res))
+        .catch(err => console.log(err))
+
       })
     }
 
