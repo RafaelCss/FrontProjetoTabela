@@ -92,14 +92,15 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
         <Form.Item name="resultado" label="Resultado">
           <Input />
         </Form.Item>
-       <Space>
-      <Button type="primary" onClick={dividir}>
-        Dividir
-      </Button>
-      <Button type="primary" onClick={multiplicar}>
-        Multiplicar
-      </Button>
-      </Space>
+        <div style={{display:"flex", alignItems:"center", width:"100%", justifyContent:"center"}}>
+        <Button type="primary" onClick={dividir} style={{margin:"10px 20px"}}>
+          Dividir
+        </Button>
+        <Button type="primary" onClick={multiplicar}>
+          Multiplicar
+        </Button>
+      </div>
+
     </Form>
     </Modal>
   );
