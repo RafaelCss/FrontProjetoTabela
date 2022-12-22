@@ -29,7 +29,6 @@ function HomeFrutas(){
     const { data , error, mutate, isValidating } =
     useSWR('Fruta', async () => await servico.buscarDados())
 
-
     function pegarDadosColuna( value : IFrutas, visivel : boolean ){
       setMostrarDropdown({fruta: value , visivel: visivel})
       setIsModalOpen(mostrarDropdown.visivel);
@@ -40,7 +39,6 @@ function HomeFrutas(){
       setIsModalOpen(false);
     }
 
-
     function cadastrarFruta(){
       setIsModalCad(true)
     }
@@ -48,7 +46,6 @@ function HomeFrutas(){
     function mostrarFormulario(){
       setIsModalCad(false)
     }
-
 
     return (
       <>

@@ -10,7 +10,7 @@ interface DadosFormulario {
 }
 function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  {
   const [form] = Form.useForm<IFrutas>();
-  const [operacao, setOperacao] = useState(0)
+  const [operacao, setOperacao] = useState<number>()
   const [fruta, setFruta] = useState<IFrutas>()
 
   const initialRender = useCallback(() => {
@@ -29,37 +29,37 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
 
 
   useEffect(()=>{
-    setFruta(form.getFieldsValue())
-  },[dados, form, operacao])
+    setFruta(dados)
+  },[dados])
 
-  console.log(fruta)
 
-  function multiplicar(){
-   const valores : IFrutas = form.getFieldsValue()
-   const resultado = Number(valores.valorA * valores.valorB)
+   function  multiplicar(){
+   const valorA  = form.getFieldValue('valorA')
+   const valorB = form.getFieldValue('valorB')
+   const resultado = Number(valorA * valorB)
     setOperacao(resultado)
   }
 
   function dividir(){
-    const valores : IFrutas = form.getFieldsValue()
-    const resultado = Number(valores.valorA / valores.valorB)
+    const valorA  = form.getFieldValue('valorA')
+    const valorB = form.getFieldValue('valorB')
+    const resultado = Number(valorA / valorB)
      setOperacao(resultado)
    }
    const handleOk = () => {
-  //  limparForm()
+    limparForm()
     limparFormulario()
     setOperacao(0)
   };
 
   const handleCancel = () => {
-  //  limparForm()
+    limparForm()
     limparFormulario()
     setOperacao(0)
   };
 
   function limparForm(){
     form.resetFields()
-
   }
 
 
@@ -75,8 +75,10 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
     name="form_item_path"
     layout="vertical"
       initialValues={{
-
-      resultado : operacao
+        nome : fruta?.nome,
+        valorA : fruta?.valorA,
+        valorB: fruta?.valorB,
+        resultado : operacao
     }}>
           <Form.Item name="nome" label="Descricão">
             <Input />

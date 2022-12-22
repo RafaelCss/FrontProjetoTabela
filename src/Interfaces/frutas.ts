@@ -5,6 +5,7 @@ export interface IFrutas {
   nome : string
   valorA : number
   valorB : number
+  resultado ?: number
 }
 
 export interface FrutaPost {
