@@ -1,8 +1,11 @@
 {
   "cSpell.words": [
     "acao",
+    "Descricão",
+    "Formulario",
     "operacao",
-    "Paginacao"
+    "Paginacao",
+    "visivel"
   ],
   "dotenv.enableAutocloaking": false
 }

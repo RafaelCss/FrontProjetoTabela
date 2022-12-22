@@ -1,36 +1,24 @@
-import React, { useState } from 'react';
-import { Button, Modal as ModalAntd } from 'antd';
+import React, { ReactElement} from 'react';
+import { Modal as ModalAntd } from 'antd';
 
-function Modal  ()  {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface IModal {
+  open :boolean
+  onOk : () => void
+  onCancel : () => void
+  title : string
+  children ?: ReactElement
+}
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+function Modal  ({open,onOk, onCancel, children, title }: IModal)  {
 
   return (
-    <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
       <ModalAntd
-        title="Basic Modal"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        title={title}
+        open={open}
+        onOk={onOk}
+        onCancel={onCancel}>
+        {children}
       </ModalAntd>
-    </>
   );
 };
 

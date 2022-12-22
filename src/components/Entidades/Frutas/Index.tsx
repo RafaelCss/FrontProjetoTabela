@@ -8,21 +8,42 @@ import { IFrutas } from "../../../Interfaces/frutas";
 import servico from "../../../lib/services/frutas";
 import S from "./style"
 import axios from "axios";
+import Modal from "../../Modal";
+import Formulario from "./formulario";
 const {Content } = Layout;
 
 
 function HomeFrutas({dados} : any){
     const { token: { colorBgContainer },} = theme.useToken();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
     const { data , error, mutate, isValidating } =
     useSWR('Fruta', async () => await servico.buscarDados())
 
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+
+
+    function handleModal (){
+      setIsModalOpen(true);
+    }
+
+
     return (
+      <>
       <Layout className="site-layout">
         <Layout className="site-layout">
           <S.HeaderMod style={{ padding: 0, background: colorBgContainer}}>
           <S.ContainerTitulo>
             <S.Titulo className="d22sd3s-d4744w5wa" key={'h1-home'} id={'h1-home'}>
-              Lista de Produtos
+              Lista de Frutas
             </S.Titulo>
           </S.ContainerTitulo>
               <S.ContainerButton>
@@ -39,11 +60,19 @@ function HomeFrutas({dados} : any){
           >
             <Tabela<IFrutas>
              loading={!data || isValidating }
-            colunas={colunasTabela as any}
+            colunas={colunasTabela({handleModal}) as any}
             dados={data as any}/>
           </Content>
         </Layout>
       </Layout>
+      <Modal
+      title="Fruta selecionada"
+      onCancel={handleCancel}
+      onOk={handleOk}
+      open={isModalOpen}>
+        <Formulario/>
+      </Modal>
+      </>
     );
   };
 
