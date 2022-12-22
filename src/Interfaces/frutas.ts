@@ -1,6 +1,7 @@
 
 
 export interface IFrutas {
+  id : number | string
   nome : string
   valorA : number
   valorB : number

@@ -2,12 +2,14 @@
 import { Button} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { IFrutas } from '../../../../Interfaces/frutas';
+import { ListagemFrutasProps } from '../Index';
 
 interface Colunas {
-  handleModal : () => void
+  pegarDadosColuna : ( value : IFrutas, visivel : boolean) => void
+  mostrarDropdown : ListagemFrutasProps
 }
 
-  export const colunasTabela = ({handleModal} : Colunas) =>{
+  export const colunasTabela = ({pegarDadosColuna, mostrarDropdown} : Colunas) =>{
   const colunas : ColumnsType<IFrutas> = [
      {
        title: 'Descrição',
@@ -36,9 +38,10 @@ interface Colunas {
      {
        title: 'Ação',
        dataIndex: 'acao',
-       render: (text) => <><Button type="primary"
-       onClick={handleModal} >Selecionar
-       </Button></>,
+       shouldCellUpdate: (record: IFrutas) =>{ return record.id === mostrarDropdown.fruta?.id},
+       render: (value, record : IFrutas, index ) => (<Button type="primary"
+       onClick={() => pegarDadosColuna(record, true)}>Selecionar
+       </Button>),
        align: 'center',
      },
 

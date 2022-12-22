@@ -1,28 +1,36 @@
 import Tabela from "../../Tabela/Index"
-import { Button, Space} from 'antd';
 import useSWR from 'swr'
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, theme } from 'antd';
 import { colunasTabela } from "./colunas";
 import { IFrutas } from "../../../Interfaces/frutas";
 import servico from "../../../lib/services/frutas";
 import S from "./style"
-import axios from "axios";
 import Modal from "../../Modal";
 import Formulario from "./formulario";
 const {Content } = Layout;
 
+export type ListagemFrutasProps = {
+  fruta?: IFrutas;
+  visivel: boolean;
+};
 
-function HomeFrutas({dados} : any){
+
+function HomeFrutas(){
     const { token: { colorBgContainer },} = theme.useToken();
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [mostrarDropdown, setMostrarDropdown] = useState<ListagemFrutasProps>({
+      fruta: undefined,
+      visivel: false
+    });
+    const [fruta, setFruta] = useState<IFrutas>();
 
     const { data , error, mutate, isValidating } =
     useSWR('Fruta', async () => await servico.buscarDados())
 
   const handleOk = () => {
     setIsModalOpen(false);
+    limparFormulario()
   };
 
   const handleCancel = () => {
@@ -30,12 +38,15 @@ function HomeFrutas({dados} : any){
   };
 
 
-
-    function handleModal (){
-      setIsModalOpen(true);
+    function pegarDadosColuna( value : IFrutas, visivel : boolean ){
+      setMostrarDropdown({fruta: value , visivel: visivel})
+      setIsModalOpen(mostrarDropdown.visivel);
+      setFruta(mostrarDropdown.fruta)
     }
 
-
+   function limparFormulario(){
+      setIsModalOpen(false);
+    }
     return (
       <>
       <Layout className="site-layout">
@@ -60,7 +71,7 @@ function HomeFrutas({dados} : any){
           >
             <Tabela<IFrutas>
              loading={!data || isValidating }
-            colunas={colunasTabela({handleModal}) as any}
+            colunas={colunasTabela({pegarDadosColuna, mostrarDropdown}) as any}
             dados={data as any}/>
           </Content>
         </Layout>
@@ -70,7 +81,7 @@ function HomeFrutas({dados} : any){
       onCancel={handleCancel}
       onOk={handleOk}
       open={isModalOpen}>
-        <Formulario/>
+        <Formulario dados={fruta as any} limparFormulario={limparFormulario}/>
       </Modal>
       </>
     );
