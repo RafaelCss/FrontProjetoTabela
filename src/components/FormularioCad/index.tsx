@@ -21,7 +21,9 @@ function FormularioCadastro({ mostrarFormulário, isModalOpen }: DadosFormulario
         nome : registro.nome,
         valorA : Number(registro.valorA),
         valorB : Number(registro.valorB),
-       }).then(res =>console.log(res))
+       }).then(res =>{
+        if(res === "Cadastrado") mostrarFormulário()
+       })
         .catch(err => console.log(err))
 
       })
