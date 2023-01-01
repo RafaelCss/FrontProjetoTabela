@@ -18,10 +18,13 @@ function Tabela<T extends object = never> ({
   ...rest
 } : TabelaProps<T>)
   : ReactElement {
+const col=colunas.map(col =>{
+  return col
+})
   return(
   <Table
     rowKey={"id"}
-    columns={colunas as any}
+    columns={col}
     dataSource={dados}
     onChange={onChange}
     style={{ minHeight: 400}}

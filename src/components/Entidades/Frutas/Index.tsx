@@ -1,6 +1,6 @@
 import Tabela from "../../Tabela/Index"
 import useSWR from 'swr'
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
 import { colunasTabela } from "./colunas";
 import { IFrutas } from "../../../Interfaces/frutas";
@@ -20,7 +20,7 @@ function HomeFrutas(){
     const { token: { colorBgContainer },} = theme.useToken();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalCad, setIsModalCad] = useState(false);
-    const [mostrarDropdown, setMostrarDropdown] = useState<ListagemFrutasProps>({
+    const [mostrarModal, setMostrarModal] = useState<ListagemFrutasProps>({
       fruta: undefined,
       visivel: false
     });
@@ -30,10 +30,16 @@ function HomeFrutas(){
     useSWR('Fruta', async () => await servico.buscarDados())
 
     function pegarDadosColuna( value : IFrutas, visivel : boolean ){
-      setMostrarDropdown({fruta: value , visivel: visivel})
-      setIsModalOpen(mostrarDropdown.visivel);
-      setFruta(mostrarDropdown.fruta)
+      setMostrarModal({fruta: value , visivel: visivel})
+      setIsModalOpen(mostrarModal.visivel);
+      setFruta(mostrarModal.fruta)
+      mutate()
     }
+
+    useEffect(()=>{
+      mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[mostrarModal])
 
    function limparFormulario(){
       setIsModalOpen(false);
@@ -41,10 +47,12 @@ function HomeFrutas(){
 
     function cadastrarFruta(){
       setIsModalCad(true)
+      mutate();
     }
 
     function mostrarFormulario(){
       setIsModalCad(false)
+      mutate();
     }
 
     return (
@@ -71,8 +79,8 @@ function HomeFrutas(){
           >
             <Tabela<IFrutas>
              loading={!data || isValidating }
-            colunas={colunasTabela({pegarDadosColuna, mostrarDropdown}) as any}
-            dados={data as any}/>
+            colunas={colunasTabela({pegarDadosColuna, mostrarModal}) as any}
+            dados={data}/>
           </Content>
         </Layout>
       </Layout>

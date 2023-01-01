@@ -6,10 +6,10 @@ import { ListagemFrutasProps } from '../Index';
 
 interface Colunas {
   pegarDadosColuna : ( value : IFrutas, visivel : boolean) => void
-  mostrarDropdown : ListagemFrutasProps
+  mostrarModal : ListagemFrutasProps
 }
 
-  export const colunasTabela = ({pegarDadosColuna, mostrarDropdown} : Colunas) =>{
+  export const colunasTabela = ({pegarDadosColuna, mostrarModal} : Colunas) =>{
   const colunas : ColumnsType<IFrutas> = [
      {
        title: 'Descrição',
@@ -38,7 +38,7 @@ interface Colunas {
      {
        title: 'Ação',
        dataIndex: 'acao',
-       shouldCellUpdate: (record: IFrutas) =>{ return record.id === mostrarDropdown.fruta?.id},
+       shouldCellUpdate: (record: IFrutas) =>{ return record.id === mostrarModal.fruta?.id},
        render: (value, record : IFrutas, index ) => (<Button type="primary"
        onClick={() => pegarDadosColuna(record, true)}>Selecionar
        </Button>),
