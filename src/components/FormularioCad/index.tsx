@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, Button, Alert } from 'antd';
 import servico from "../../lib/services/frutas";
 import { FrutaPost, IFrutas } from '../../Interfaces/frutas';
 import Modal from '../Modal';
-
+import useSWR from 'swr'
 
 interface DadosFormularioCad {
   mostrarFormulário : () => void
@@ -11,9 +11,13 @@ interface DadosFormularioCad {
 }
 
 function FormularioCadastro({ mostrarFormulário, isModalOpen }: DadosFormularioCad) {
-
   const [form] = Form.useForm<IFrutas>();
+  const { mutate } = useSWR('Fruta', async () => await servico.buscarDados())
+  const initialRender = useCallback(()=>{
+    if(form) return
+  },[form])
 
+  useEffect(()=>initialRender(),[initialRender])
     function cadastrarFruta(){
       form.validateFields().then(async ()=>{
       const registro : FrutaPost = form.getFieldsValue(true)
@@ -21,11 +25,11 @@ function FormularioCadastro({ mostrarFormulário, isModalOpen }: DadosFormulario
         nome : registro.nome,
         valorA : Number(registro.valorA),
         valorB : Number(registro.valorB),
-       }).then(res =>{
-        if(res === "Cadastrado") mostrarFormulário()
        })
-        .catch(err => console.log(err))
-
+        if(post === "Cadastrado"){
+          mostrarFormulário()
+          mutate()
+        }
       })
     }
 
@@ -55,3 +59,5 @@ function FormularioCadastro({ mostrarFormulário, isModalOpen }: DadosFormulario
 };
 
 export default FormularioCadastro;
+
+

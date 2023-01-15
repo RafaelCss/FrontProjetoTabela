@@ -24,7 +24,6 @@ function HomeFrutas(){
       fruta: undefined,
       visivel: false
     });
-    const [fruta, setFruta] = useState<IFrutas>();
 
     const { data , error, mutate, isValidating } =
     useSWR('Fruta', async () => await servico.buscarDados())
@@ -32,14 +31,8 @@ function HomeFrutas(){
     function pegarDadosColuna( value : IFrutas, visivel : boolean ){
       setMostrarModal({fruta: value , visivel: visivel})
       setIsModalOpen(mostrarModal.visivel);
-      setFruta(mostrarModal.fruta)
-      mutate()
     }
 
-    useEffect(()=>{
-      mutate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[mostrarModal])
 
    function limparFormulario(){
       setIsModalOpen(false);
@@ -47,12 +40,10 @@ function HomeFrutas(){
 
     function cadastrarFruta(){
       setIsModalCad(true)
-      mutate();
     }
 
     function mostrarFormulario(){
       setIsModalCad(false)
-      mutate();
     }
 
     return (
@@ -80,11 +71,11 @@ function HomeFrutas(){
             <Tabela<IFrutas>
              loading={!data || isValidating }
             colunas={colunasTabela({pegarDadosColuna, mostrarModal}) as any}
-            dados={data}/>
+            dados={data &&data}/>
           </Content>
         </Layout>
       </Layout>
-        <Formulario dados={fruta} limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
+        <Formulario dados={mostrarModal.fruta} limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
         <FormularioCadastro mostrarFormulário={mostrarFormulario} isModalOpen={isModalCad} />
       </>
     );
