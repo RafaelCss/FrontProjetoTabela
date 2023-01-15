@@ -11,7 +11,6 @@ interface DadosFormulario {
 function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  {
   const [form] = Form.useForm<IFrutas>();
   const [operacao, setOperacao] = useState<number>()
-  const [fruta, setFruta] = useState<IFrutas>()
 
   const initialRender = useCallback(() => {
     if (form) {
@@ -71,9 +70,9 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
     name="form_item_path"
     layout="vertical"
       initialValues={{
-        nome : fruta?.nome,
-        valorA : fruta?.valorA,
-        valorB: fruta?.valorB,
+        nome : dados?.nome,
+        valorA : dados?.valorA,
+        valorB: dados?.valorB,
         resultado : operacao
     }}>
           <Form.Item name="nome" label="Descricão">
