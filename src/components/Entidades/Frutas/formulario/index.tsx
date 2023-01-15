@@ -28,10 +28,6 @@ function Formulario({dados, limparFormulario , isModalOpen} : DadosFormulario)  
   }, [initialRender]);
 
 
-  useEffect(()=>{
-    setFruta(dados)
-  },[dados])
-
 
    function  multiplicar(){
    const valorA  = form.getFieldValue('valorA')

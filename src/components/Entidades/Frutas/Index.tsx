@@ -75,8 +75,14 @@ function HomeFrutas(){
           </Content>
         </Layout>
       </Layout>
-        <Formulario dados={mostrarModal.fruta} limparFormulario={limparFormulario} isModalOpen={isModalOpen}/>
-        <FormularioCadastro mostrarFormulário={mostrarFormulario} isModalOpen={isModalCad} />
+        <Formulario
+          dados={mostrarModal.fruta}
+          limparFormulario={limparFormulario}
+          isModalOpen={isModalOpen}/>
+        <FormularioCadastro
+          mostrarFormulário={mostrarFormulario}
+          isModalOpen={isModalCad}
+          />
       </>
     );
   };
