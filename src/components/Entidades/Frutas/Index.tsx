@@ -2,12 +2,13 @@ import Tabela from "../../Tabela/Index"
 import useSWR from 'swr'
 import React, {  useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
-import { colunasTabela } from "./colunas";
+import { Colunas, colunasTabela } from "./colunas";
 import { IFrutas } from "../../../Interfaces/frutas";
 import servico from "../../../lib/services/frutas";
 import S from "./style"
 import Formulario from "./formulario";
 import FormularioCadastro from "../../FormularioCad";
+import { ColumnGroupType } from "antd/es/table";
 const {Content } = Layout;
 
 export type ListagemFrutasProps = {
@@ -39,7 +40,8 @@ function HomeFrutas(){
     }
 
     function cadastrarFruta(){
-      setIsModalCad(true)
+      setIsModalCad(true);
+      mutate();
     }
 
     function mostrarFormulario(){
@@ -70,8 +72,8 @@ function HomeFrutas(){
           >
             <Tabela<IFrutas>
              loading={!data || isValidating }
-            colunas={colunasTabela({pegarDadosColuna, mostrarModal}) as any}
-            dados={data &&data}/>
+            colunas={colunasTabela({pegarDadosColuna, mostrarModal}) as ColumnGroupType<IFrutas>[]}
+            dados={data ? data : []}/>
           </Content>
         </Layout>
       </Layout>

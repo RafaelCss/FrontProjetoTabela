@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import { IFrutas } from '../../../../Interfaces/frutas';
 import { ListagemFrutasProps } from '../Index';
 
-interface Colunas {
+export interface Colunas {
   pegarDadosColuna : ( value : IFrutas, visivel : boolean) => void
   mostrarModal : ListagemFrutasProps
 }
